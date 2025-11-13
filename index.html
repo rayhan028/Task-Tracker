@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="taskTrackerApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Tracker</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="MainCtrl as ctrl">
+
+  <div class="container">
+    <h1>Task Tracker</h1>
+
+    <!-- Task Form -->
+    <div class="task-form">
+      <input type="text" ng-model="ctrl.newTask.title" placeholder="Task title">
+      <select ng-model="ctrl.newTask.category">
+        <option ng-repeat="cat in ctrl.categories">{{cat}}</option>
+      </select>
+      <button ng-click="ctrl.addTask()">Add Task</button>
+    </div>
+
+    <!-- Task List -->
+    <div class="task-list">
+      <div class="task-item" ng-repeat="task in ctrl.tasks">
+        <input type="checkbox" ng-model="task.completed" ng-change="ctrl.updateTask(task)">
+        <span ng-class="{'completed': task.completed}">{{task.title}} ({{task.category}})</span>
+        <button ng-click="ctrl.deleteTask(task)">Delete</button>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <h2>Task Analytics</h2>
+      <p>Total: {{ctrl.tasks.length}}</p>
+      <p>Completed: {{ctrl.completedCount()}}</p>
+      <p>Pending: {{ctrl.tasks.length - ctrl.completedCount()}}</p>
+      <canvas id="chart" width="400" height="400"></canvas>
+    </div>
+  </div>
+
+</body>
+</html>
